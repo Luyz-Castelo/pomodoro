@@ -106,11 +106,12 @@
 
       function getTimeRemaining(endtimeInMilliseconds) {
         const total = endtimeInMilliseconds - Date.parse(new Date());
-        const seconds = Math.floor((total / 1000) % 60);
-        const minutes = Math.floor((total / 1000 / 60) % 60);
-        const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+        const seconds = Math.floor((total / 1000) % 60) || 0;
+        const minutes = Math.floor((total / 1000 / 60) % 60) || 0;
+        const hours = Math.floor((total / (1000 * 60 * 60)) % 24) || 0;
 
         return {
+          total,
           hours,
           minutes,
           seconds,
@@ -122,7 +123,7 @@
         const timeinterval = setInterval(() => {
           const t = getTimeRemaining(endtime);
           clock.innerText = `${t.hours}:${t.minutes}:${t.seconds}`;
-          if (t.seconds <= 0) {
+          if (t.total <= 0) {
             clearInterval(timeinterval);
             new Audio("audio.mp4").play();
           }
