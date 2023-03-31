@@ -27,6 +27,7 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        margin-bottom: 1em;
         gap: 0;
       }
 
@@ -41,6 +42,30 @@
         flex-direction: column;
       }
 
+      input {
+        padding: 8px;
+        display: block;
+        border: none;
+        border-bottom: 1px solid #ccc;
+      }
+
+      button {
+        border: none;
+        border-radius: 5px;
+        color: white;
+        padding: 15px 32px;
+        font-size: 1em;
+        background-color: #222;
+      }
+
+      .paused {
+        background-color: #4caf50;
+      }
+
+      .unpaused {
+        background-color: #f44336;
+      }
+
       .mt {
         margin-top: 0.5em;
       }
@@ -50,50 +75,52 @@
     <div class="main">
       <div class="pomodoro">
         <h1 class="pomodoro-text">FOCUS!!!</h1>
-        <div class="pomodoro-timer">30:00</div>
+        <div class="pomodoro-timer">Start the timer by filling one of the inputs then starting it</div>
+        <button type="button" class="unpaused pause-unpause-timer" onclick="pauseUnpauseTimer()">Pause timer</button>
       </div>
 
       <div class="flex mt">
         <span class="timer">
-          <label for="study-time">Study Time in Minutes</label>
-          <input type="number" id="study-time" />
-          <button class="mt" onclick="startTimer('study')">
-            Start study timer
-          </button>
+          <label for="study-time">Study Time (in minutes)</label>
+          <input type="number" value="30" id="study-time" />
+          <button class="mt" onclick="startTimer('study')">Start study timer</button>
         </span>
         <span class="timer">
-          <label for="break-time">Break Time in Minutes</label>
-          <input type="number" id="break-time" />
-          <button class="mt" onclick="startTimer('break')">
-            Start break timer
-          </button>
+          <label for="break-time">Break Time (in minutes)</label>
+          <input type="number" value="5" id="break-time" />
+          <button class="mt" onclick="startTimer('break')">Start break timer</button>
         </span>
       </div>
     </div>
 
     <h2 class="flex">
-      If you want to change the audio played when the timer is up, just save
-      your audio as "audio.mp4" beside the index.html file
+      <span>
+        If you want to change the audio played when the timer is up, you can download the files from
+        <a target="blank" href="https://github.com/Luyz-Castelo/pomodoro">GitHub</a>, then save your audio as "audio.mp4" beside the
+        index.html file. Finally, open index.html in your browser.
+      </span>
     </h2>
     <script>
-      const pomodoroText = document.querySelector(".pomodoro-text");
-      const pomodoroTimer = document.querySelector(".pomodoro-timer");
+      const pomodoroText = document.querySelector('.pomodoro-text');
+      const pomodoroTimer = document.querySelector('.pomodoro-timer');
       let interval;
+      let isPaused = false;
+
       function startTimer(typeOfTimer) {
         clearInterval(interval);
 
-        if (typeOfTimer === "study") {
-          pomodoroText.innerText = "FOCUS!!!";
-          const studyTime = document.querySelector("#study-time");
+        if (typeOfTimer === 'study') {
+          pomodoroText.innerText = 'FOCUS!!!';
+          const studyTime = document.querySelector('#study-time');
           const endTime = getEndTime(studyTime.value);
 
-          initializeClock(pomodoroTimer.className, endTime);
+          initializeClock(endTime);
         } else {
-          pomodoroText.innerText = "Take a break";
-          const breakTime = document.querySelector("#break-time");
+          pomodoroText.innerText = 'Take a break';
+          const breakTime = document.querySelector('#break-time');
           const endTime = getEndTime(breakTime.value);
 
-          initializeClock(pomodoroTimer.className, endTime);
+          initializeClock(endTime);
         }
       }
 
@@ -118,17 +145,41 @@
         };
       }
 
-      function initializeClock(className, endtime) {
-        const clock = document.querySelector(`.${className}`);
-        const timeinterval = setInterval(() => {
-          const t = getTimeRemaining(endtime);
-          clock.innerText = `${t.hours}:${t.minutes}:${t.seconds}`;
-          if (t.total <= 0) {
-            clearInterval(timeinterval);
-            new Audio("audio.mp4").play();
+      function initializeClock(endTimeInMilliseconds) {
+        const clock = document.querySelector('.pomodoro-timer');
+        interval = setInterval(() => {
+          const timeRemaining = getTimeRemaining(endTimeInMilliseconds);
+          if (!isPaused) {
+            clock.innerText = `${timeRemaining.hours}:${timeRemaining.minutes}:${timeRemaining.seconds}`;
+            if (timeRemaining.total <= 0) timerHasEnded();
+            return;
           }
+          endTimeInMilliseconds += 1000;
         }, 1000);
-        interval = timeinterval;
+      }
+
+      function timerHasEnded() {
+        clearInterval(interval);
+        interval = null;
+        new Audio('audio.mp4').play();
+      }
+
+      function pauseUnpauseTimer() {
+        isPaused = !isPaused;
+        changePauseButtonStyle(isPaused);
+      }
+
+      function changePauseButtonStyle(isPaused) {
+        const pauseUnpauseButton = document.querySelector('.pause-unpause-timer');
+        if (isPaused) {
+          pauseUnpauseButton.innerText = 'Unpause timer';
+          pauseUnpauseButton.classList.remove('unpaused');
+          pauseUnpauseButton.classList.add('paused');
+          return;
+        }
+        pauseUnpauseButton.innerText = 'Pause timer';
+        pauseUnpauseButton.classList.remove('paused');
+        pauseUnpauseButton.classList.add('unpaused');
       }
     </script>
   </body>
