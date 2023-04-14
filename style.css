@@ -1,0 +1,66 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5vh;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+.pomodoro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 1em;
+    gap: 0;
+}
+
+.pomodoro-timer {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+}
+
+.timer {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    padding: 8px;
+    display: block;
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+button {
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 15px 32px;
+    font-size: 1em;
+    background-color: #222;
+}
+
+.paused {
+    background-color: #4caf50;
+}
+
+.unpaused {
+    background-color: #f44336;
+}
+
+audio::-webkit-media-controls-panel {
+    background-color: white;
+}
+
+.mt {
+    margin-top: 0.5em;
+}

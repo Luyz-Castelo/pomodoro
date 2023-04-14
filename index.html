@@ -5,92 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pomodoro Timer</title>
-    <style>
-      .main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin-top: 5vh;
-      }
-
-      .flex {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        gap: 2em;
-      }
-
-      .pomodoro {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        margin-bottom: 1em;
-        gap: 0;
-      }
-
-      .pomodoro-timer {
-        font-size: 3rem;
-        font-weight: bold;
-        margin-bottom: 0.5em;
-      }
-
-      .timer {
-        display: flex;
-        flex-direction: column;
-      }
-
-      input {
-        padding: 8px;
-        display: block;
-        border: none;
-        border-bottom: 1px solid #ccc;
-      }
-
-      button {
-        border: none;
-        border-radius: 5px;
-        color: white;
-        padding: 15px 32px;
-        font-size: 1em;
-        background-color: #222;
-      }
-
-      .paused {
-        background-color: #4caf50;
-      }
-
-      .unpaused {
-        background-color: #f44336;
-      }
-
-      .mt {
-        margin-top: 0.5em;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
+    <script src="main.js" defer></script>
   </head>
   <body>
     <div class="main">
       <div class="pomodoro">
         <h1 class="pomodoro-text">FOCUS!!!</h1>
         <div class="pomodoro-timer">Start the timer by filling one of the inputs then starting it</div>
-        <button type="button" class="unpaused pause-unpause-timer" onclick="pauseUnpauseTimer()">Pause timer</button>
+        <button type="button" id="pause-unpause-timer" class="unpaused">Pause timer</button>
       </div>
 
       <div class="flex mt">
         <span class="timer">
           <label for="study-time">Study Time (in minutes)</label>
           <input type="number" value="30" id="study-time" />
-          <button class="mt" onclick="startTimer('study')">Start study timer</button>
+          <button id="study-timer" class="mt">Start study timer</button>
         </span>
         <span class="timer">
           <label for="break-time">Break Time (in minutes)</label>
           <input type="number" value="5" id="break-time" />
-          <button class="mt" onclick="startTimer('break')">Start break timer</button>
+          <button id="break-timer" class="mt">Start break timer</button>
         </span>
       </div>
+    </div>
+
+    <div class="flex mt">
+      <audio controls id="audio">
+        <source src="audio.mp4" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
     </div>
 
     <h2 class="flex">
@@ -100,87 +44,5 @@
         index.html file. Finally, open index.html in your browser.
       </span>
     </h2>
-    <script>
-      const pomodoroText = document.querySelector('.pomodoro-text');
-      const pomodoroTimer = document.querySelector('.pomodoro-timer');
-      let interval;
-      let isPaused = false;
-
-      function startTimer(typeOfTimer) {
-        clearInterval(interval);
-
-        if (typeOfTimer === 'study') {
-          pomodoroText.innerText = 'FOCUS!!!';
-          const studyTime = document.querySelector('#study-time');
-          const endTime = getEndTime(studyTime.value);
-
-          initializeClock(endTime);
-        } else {
-          pomodoroText.innerText = 'Take a break';
-          const breakTime = document.querySelector('#break-time');
-          const endTime = getEndTime(breakTime.value);
-
-          initializeClock(endTime);
-        }
-      }
-
-      function getEndTime(value) {
-        const timeInMilliseconds = Number(value) * 60000;
-        const endTime = Number(new Date().getTime() + timeInMilliseconds);
-
-        return endTime;
-      }
-
-      function getTimeRemaining(endtimeInMilliseconds) {
-        const total = endtimeInMilliseconds - Date.parse(new Date());
-        const seconds = Math.floor((total / 1000) % 60) || 0;
-        const minutes = Math.floor((total / 1000 / 60) % 60) || 0;
-        const hours = Math.floor((total / (1000 * 60 * 60)) % 24) || 0;
-
-        return {
-          total,
-          hours,
-          minutes,
-          seconds,
-        };
-      }
-
-      function initializeClock(endTimeInMilliseconds) {
-        const clock = document.querySelector('.pomodoro-timer');
-        interval = setInterval(() => {
-          const timeRemaining = getTimeRemaining(endTimeInMilliseconds);
-          if (!isPaused) {
-            clock.innerText = `${timeRemaining.hours}:${timeRemaining.minutes}:${timeRemaining.seconds}`;
-            if (timeRemaining.total <= 0) timerHasEnded();
-            return;
-          }
-          endTimeInMilliseconds += 1000;
-        }, 1000);
-      }
-
-      function timerHasEnded() {
-        clearInterval(interval);
-        interval = null;
-        new Audio('audio.mp4').play();
-      }
-
-      function pauseUnpauseTimer() {
-        isPaused = !isPaused;
-        changePauseButtonStyle(isPaused);
-      }
-
-      function changePauseButtonStyle(isPaused) {
-        const pauseUnpauseButton = document.querySelector('.pause-unpause-timer');
-        if (isPaused) {
-          pauseUnpauseButton.innerText = 'Unpause timer';
-          pauseUnpauseButton.classList.remove('unpaused');
-          pauseUnpauseButton.classList.add('paused');
-          return;
-        }
-        pauseUnpauseButton.innerText = 'Pause timer';
-        pauseUnpauseButton.classList.remove('paused');
-        pauseUnpauseButton.classList.add('unpaused');
-      }
-    </script>
   </body>
 </html>
