@@ -9,12 +9,10 @@ function main() {
     const pauseUnpauseButton = document.querySelector('#pause-unpause-timer');
     const studyTimerButton = document.querySelector('#study-timer');
     const breakTimerButton = document.querySelector('#break-timer');
-    const muteUnmuteButton = document.querySelector('#mute-unmute');
 
     pauseUnpauseButton.addEventListener('click', event => pauseUnpauseTimer(event.target));
     studyTimerButton.addEventListener('click', () => startTimer('study'));
     breakTimerButton.addEventListener('click', () => startTimer('break'));
-    muteUnmuteButton.addEventListener('click', event => muteUnmuteAudio(event.target));
   }
 
   function startTimer(typeOfTimer) {
@@ -90,19 +88,6 @@ function main() {
     pauseUnpauseButton.innerText = 'Pause timer';
     pauseUnpauseButton.classList.remove('paused');
     pauseUnpauseButton.classList.add('unpaused');
-  }
-
-  function muteUnmuteAudio(muteUnmuteButton) {
-    audio.muted = !audio.muted;
-    if (audio.muted) {
-      muteUnmuteButton.innerText = 'Unmute audio';
-      muteUnmuteButton.classList.remove('mute');
-      muteUnmuteButton.classList.add('unmute');
-      return;
-    }
-    muteUnmuteButton.innerText = 'Mute audio';
-    muteUnmuteButton.classList.remove('mute');
-    muteUnmuteButton.classList.add('unmute');
   }
 
   addButtonsListeners();

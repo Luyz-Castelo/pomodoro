@@ -1,66 +1,78 @@
 .main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5vh;
 }
 
 .flex {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
 }
 
 .pomodoro {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-bottom: 1em;
-    gap: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 1em;
+  gap: 0;
 }
 
 .pomodoro-timer {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 0.5em;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.5em;
 }
 
 .timer {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 input {
-    padding: 8px;
-    display: block;
-    border: none;
-    border-bottom: 1px solid #ccc;
+  padding: 8px;
+  display: block;
+  border: none;
+  border-bottom: 1px solid #ccc;
 }
 
 button {
-    border: none;
-    border-radius: 5px;
-    color: white;
-    padding: 15px 32px;
-    font-size: 1em;
-    background-color: #222;
-}
-
-.paused {
-    background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 15px 32px;
+  font-size: 1em;
+  background-color: #222;
 }
 
 .unpaused {
-    background-color: #f44336;
-}
-
-audio::-webkit-media-controls-panel {
-    background-color: white;
+  background-color: #f44336;
 }
 
 .mt {
-    margin-top: 0.5em;
+  margin-top: 0.5em;
+}
+
+audio::-webkit-media-controls-panel {
+  background-color: #fff;
+}
+
+audio::-webkit-media-controls-panel {
+  -webkit-justify-content: center;
+}
+
+audio::-webkit-media-controls-timeline {
+  display: none !important;
+}
+
+audio::-webkit-media-controls-current-time-display {
+  display: none;
+}
+
+audio::-webkit-media-controls-time-remaining-display {
+  display: none;
 }
